@@ -10,14 +10,14 @@ export default function Modal({largeImg, toggleModal})  {
     };
     useEffect(() => {
      document.addEventListener('keydown', closeModalByEsc);
-  }, []);
+  }, [closeModalByEsc]);
 
     useEffect(() => {
 
     return () => {
        document.removeEventListener('keydown', closeModalByEsc);
     };
-  }, []);
+  }, [closeModalByEsc]);
 
 
 

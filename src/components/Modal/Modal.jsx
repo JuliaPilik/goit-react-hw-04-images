@@ -1,34 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import css from './Modal.module.css';
 import PropTypes from 'prop-types';
 
-export default class Modal extends React.Component {
-  componentDidMount() {
-    document.addEventListener('keydown', this.closeModalByEsc);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.closeModalByEsc);
-  }
-
-  closeModalByEsc = e => {
+export default function Modal({largeImg, toggleModal})  {
+    const closeModalByEsc = e => {
     if (e.code === 'Escape') {
-      this.props.toggleModal();
-    }
-  };
-  render() {
+      toggleModal();
+      }
+    };
+    useEffect(() => {
+     document.addEventListener('keydown', closeModalByEsc);
+  }, []);
+
+    useEffect(() => {
+
+    return () => {
+       document.removeEventListener('keydown', closeModalByEsc);
+    };
+  }, []);
+
+
+
     return (
       <div
         className={css.Modal__backdrop}
-        onClick={() => this.props.toggleModal()}
+        onClick={() => toggleModal()}
       >
         <div className={css.Modal__content} OnClick={e => e.stopPropagation()}>
-          <img src={this.props.largeImg} alt="" className={css.Modal__img} />
+          <img src={largeImg} alt="" className={css.Modal__img} />
         </div>
       </div>
     );
-  }
 }
+
+
 Modal.propTypes = {
   largeImg: PropTypes.string.isRequired,
   toggleModal: PropTypes.func.isRequired,

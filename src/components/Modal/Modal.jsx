@@ -1,38 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import css from './Modal.module.css';
 import PropTypes from 'prop-types';
 
-export default function Modal({largeImg, toggleModal})  {
-    const closeModalByEsc = e => {
-    if (e.code === 'Escape') {
-      toggleModal();
+export default function Modal({ largeImg, toggleModal }) {
+  const closeModalByEsc = useCallback(
+    e => {
+      if (e.code === 'Escape') {
+        toggleModal();
       }
-    };
-    useEffect(() => {
-     document.addEventListener('keydown', closeModalByEsc);
+    },
+    [toggleModal]
+  );
+  useEffect(() => {
+    document.addEventListener('keydown', closeModalByEsc);
   }, [closeModalByEsc]);
 
-    useEffect(() => {
-
+  useEffect(() => {
     return () => {
-       document.removeEventListener('keydown', closeModalByEsc);
+      document.removeEventListener('keydown', closeModalByEsc);
     };
   }, [closeModalByEsc]);
 
-
-
-    return (
-      <div
-        className={css.Modal__backdrop}
-        onClick={() => toggleModal()}
-      >
-        <div className={css.Modal__content} OnClick={e => e.stopPropagation()}>
-          <img src={largeImg} alt="" className={css.Modal__img} />
-        </div>
+  return (
+    <div className={css.Modal__backdrop} onClick={() => toggleModal()}>
+      <div className={css.Modal__content} OnClick={e => e.stopPropagation()}>
+        <img src={largeImg} alt="" className={css.Modal__img} />
       </div>
-    );
+    </div>
+  );
 }
-
 
 Modal.propTypes = {
   largeImg: PropTypes.string.isRequired,

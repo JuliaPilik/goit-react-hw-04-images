@@ -13,7 +13,7 @@ export default function ImageGallery({ imageName }) {
   const [showModal, setShowModal] = useState(false);
   const [imageLargeSrc, setImageLargeSrc] = useState('');
   const [page, setPage] = useState(1);
-  const [per_page, setPer_page] = useState(12);
+  const per_page = 12;
   const [totalResult, setTotalResult] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -38,15 +38,16 @@ export default function ImageGallery({ imageName }) {
             setTotalResult(totalHits);
             setLoading(false);
           })
-          .catch(error => {
-            setError(error.message);
+          .catch(err => {
+            setError(err.message);
+            console.log(error);
           })
           .finally(() => {
             setLoading(false);
           });
       }, 600);
     }
-  }, [page, loading, imageName, images, per_page]);
+  }, [page, loading, imageName, images, per_page, error]);
 
   const toggleModal = () => {
     setShowModal(!showModal);
